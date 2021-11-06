@@ -1,7 +1,10 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id "androidx.navigation.safeargs.kotlin"
 }
+
 
 android {
     compileSdk 30
@@ -20,6 +23,18 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            buildConfigField "String", "SERVER_URL", '"https://api.flickr.com/services/rest/"'
+        }
+
+
+        debug {
+            def proguard = false
+            minifyEnabled proguard
+
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            buildConfigField "String", "SERVER_URL", '"https://api.flickr.com/services/rest/"'
         }
     }
     compileOptions {
@@ -31,12 +46,91 @@ android {
     }
 }
 
-dependencies {
+dependencies { configuration ->
 
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
+    androidX(configuration)
+    navigation(configuration)
+    lifecycle(configuration)
+    retrofit(configuration)
+    coroutines(configuration)
+    koin(configuration)
+    imageLoader(configuration)
+    progressBar(configuration)
+    dimens(configuration)
+
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}
+
+private static void androidX(configuration) {
+    def version = "1.0.0"
+
+
+    configuration.implementation "androidx.legacy:legacy-support-v4:$version"
+    configuration.implementation "androidx.cardview:cardview:$version"
+    configuration.implementation "androidx.recyclerview:recyclerview:1.2.0-beta01"
+    configuration.implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
+    configuration.implementation 'androidx.appcompat:appcompat:1.3.1'
+    configuration.implementation "androidx.preference:preference-ktx:1.1.1"
+    configuration.implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    configuration.implementation "com.google.android.material:material:1.4.0"
+
+}
+
+private static void navigation(configuration) {
+    def nav_version = "2.3.5"
+
+    configuration.implementation "androidx.navigation:navigation-fragment:$nav_version"
+    configuration.implementation "androidx.navigation:navigation-ui:$nav_version"
+    configuration.implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    configuration.implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    configuration.implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+}
+
+private static void lifecycle(configuration) {
+    def lifecycle_version = "2.3.1"
+
+    configuration.implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    configuration.implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    configuration.implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    configuration.implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
+}
+
+private static void retrofit(configuration) {
+    def retrofit_version = "2.9.0"
+
+    configuration.implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    configuration.implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    configuration.implementation "com.squareup.okhttp3:okhttp"
+    configuration.debugImplementation "com.squareup.okhttp3:logging-interceptor"
+
+    configuration.debugImplementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+}
+
+private static void coroutines(configuration) {
+    def coroutines_version = "1.4.2"
+    configuration.implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    configuration.implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+}
+
+private static void koin(configuration) {
+//    def koin_version = "2.2.1"
+    def koin_version = "3.1.2"
+    configuration.implementation "io.insert-koin:koin-android:$koin_version"
+    configuration.testImplementation "org.koin:koin-test:$koin_version"
+}
+
+private static void imageLoader(configuration) {
+    configuration.implementation 'com.squareup.picasso:picasso:2.71828'
+}
+
+private static void progressBar(configuration) {
+    configuration.implementation 'com.wang.avi:library:2.1.3'
+}
+
+private static void dimens(configuration) {
+    configuration.implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    configuration.implementation 'com.intuit.ssp:ssp-android:1.0.6'
 }
