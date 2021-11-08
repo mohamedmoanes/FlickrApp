@@ -14,7 +14,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 
 
-class PhotosAdapter(private val click: (photo: Photo) -> Unit) :
+class PhotosAdapter(private val click: (position:Int) -> Unit) :
     ListAdapter<Photo, PhotosAdapter.ViewHolder>(PhotoItemDiffCallback()) {
 
 
@@ -26,10 +26,10 @@ class PhotosAdapter(private val click: (photo: Photo) -> Unit) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(holder.bindingAdapterPosition)
-        holder.image.setImageURL("https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}.jpg")
+        holder.image.setImageURL(item.getUrl())
 
         holder.itemView.setOnClickListener {
-            click(item)
+            click(holder.bindingAdapterPosition)
         }
         val animation: Animation =
             AnimationUtils.loadAnimation(holder.itemView.context, android.R.anim.slide_in_left)

@@ -4,6 +4,7 @@ import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -83,5 +84,7 @@ class PhotosListFragment : BaseFragment() {
         })
     }
 
-    private fun openPhoto(photo: Photo) {}
+    private fun openPhoto(position:Int) {
+        findNavController().navigate(PhotosListFragmentDirections.actionPhotosListFragmentToFullScreenImageFragment(position))
+    }
 }

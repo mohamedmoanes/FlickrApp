@@ -49,10 +49,6 @@ android {
 
 dependencies { configuration ->
     implementation platform("com.squareup.okhttp3:okhttp-bom:4.9.0")
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     androidX(configuration)
     navigation(configuration)
@@ -61,10 +57,10 @@ dependencies { configuration ->
     room(configuration)
     coroutines(configuration)
     koin(configuration)
-    paging(configuration)
     imageLoader(configuration)
     progressBar(configuration)
     dimens(configuration)
+    imageZoom(configuration)
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
@@ -133,20 +129,18 @@ private static void coroutines(configuration) {
 }
 
 private static void koin(configuration) {
-//    def koin_version = "2.2.1"
     def koin_version = "3.1.2"
     configuration.implementation "io.insert-koin:koin-android:$koin_version"
     configuration.testImplementation "org.koin:koin-test:$koin_version"
 }
 
-private static void paging(configuration){
-    def paging_version = "3.0.1"
-
-    configuration.implementation "androidx.paging:paging-runtime:$paging_version"
-}
 
 private static void imageLoader(configuration) {
     configuration.implementation 'com.squareup.picasso:picasso:2.71828'
+}
+
+private static void imageZoom(configuration) {
+    configuration.implementation 'com.ablanco.zoomy:zoomy:1.1.0'
 }
 
 private static void progressBar(configuration) {

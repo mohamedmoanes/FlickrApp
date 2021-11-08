@@ -9,5 +9,19 @@
         android:id="@+id/photosListFragment"
         android:name="com.moanes.flickrapp.ui.photoslist.PhotosListFragment"
         android:label="fragment_photos_list"
-        tools:layout="@layout/fragment_photos_list" />
+        tools:layout="@layout/fragment_photos_list" >
+        <action
+            android:id="@+id/action_photosListFragment_to_fullScreenImageFragment"
+            app:destination="@id/fullScreenImageFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fullScreenImageFragment"
+        android:name="com.moanes.flickrapp.ui.fullscreenimageviewer.FullScreenImageFragment"
+        android:label="fragment_full_screen_image"
+        tools:layout="@layout/fragment_full_screen_image" >
+        <argument
+            android:name="position"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>

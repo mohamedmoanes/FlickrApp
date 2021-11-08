@@ -25,4 +25,9 @@ data class Photo(
     var server: String,
     @SerializedName("title")
     var title: String
-)
+) {
+    fun getUrl(): String {
+        return "https://live.staticflickr.com/${server}/${id}_${secret}.jpg"
+    }
+
+}

@@ -1,7 +1,6 @@
 package com.moanes.flickrapp.data.db
 
 import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -22,8 +21,4 @@ interface PhotosDao {
 
     @Query("DELETE FROM Photos")
     suspend fun clearPhotos()
-
-    /** Get photos from local DB with pagination */
-    @Query("SELECT * FROM Photos")
-    fun getPagedPhotos(): DataSource.Factory<Int, Photo>
 }
