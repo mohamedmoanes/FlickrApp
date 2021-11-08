@@ -137,6 +137,7 @@ private static void koin(configuration) {
 
 private static void imageLoader(configuration) {
     configuration.implementation 'com.squareup.picasso:picasso:2.71828'
+    configuration.implementation'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
 }
 
 private static void imageZoom(configuration) {

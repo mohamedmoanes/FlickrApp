@@ -5,10 +5,11 @@ import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import com.developnetwork.carviseta.utiles.view.ProgressDialog
 
 
 abstract class BaseActivity : AppCompatActivity() {
-//    private var loadingDialog: ProgressDialog? = null
+    private var loadingDialog: ProgressDialog? = null
 
     @LayoutRes
     abstract fun getLayout(): Int
@@ -18,27 +19,26 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayout())
-//        loadingDialog = ProgressDialog(this)
-//        loadingDialog?.setOnCancelListener {
-////            findNavController().navigateUp()
-//            try {
-//                onBackPressed()
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        }
+        loadingDialog = ProgressDialog(this)
+        loadingDialog?.setOnCancelListener {
+            try {
+                onBackPressed()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
 
         init()
     }
 
     open fun showLoading() {
-//        loadingDialog?.let {
-//            it.show()
-//        }
+        loadingDialog?.let {
+            it.show()
+        }
     }
 
     open fun hideLoading() {
-//        loadingDialog?.let { it.dismiss() }
+        loadingDialog?.let { it.dismiss() }
     }
 
 
@@ -53,13 +53,13 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-//        if (loadingDialog != null && loadingDialog?.isShowing!!) {
-//            loadingDialog?.dismiss()
-//        }
+        if (loadingDialog != null && loadingDialog?.isShowing!!) {
+            loadingDialog?.dismiss()
+        }
     }
 
     override fun onStop() {
         super.onStop()
-//        loadingDialog = null
+        loadingDialog = null
     }
 }
