@@ -3,6 +3,7 @@ package com.moanes.flickrapp.ui
 import com.moanes.flickrapp.base.BaseViewModel
 import com.moanes.flickrapp.data.repository.PhotosRepo
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.concurrent.fixedRateTimer
 
@@ -15,14 +16,33 @@ class PhotosViewModel(private val photosRepo: PhotosRepo) : BaseViewModel() {
         autoRefresh()
     }
 
-    private fun getPhotos() = handleRequest {
-        val result = withContext(Dispatchers.IO) {
-            photosRepo.getRemoteData(mCurrentPage)
+    fun getPhotos() = launch {
+        try {
+            showLoading.postValue(true)
+
+            val result = withContext(Dispatchers.IO) {
+                photosRepo.getRemoteData(mCurrentPage)
+            }
+
+            mCurrentPage = result.page
+            mTotalPage = result.pages
+
+            checkData()
+
+            showLoading.postValue(false)
+
+        } catch (exception: Exception) {
+            showLoading.postValue(false)
+            checkData()
+            errorLiveData.postValue(
+                exception.localizedMessage
+            )
         }
+    }
+
+    fun checkData() {
         if (mCurrentPage == 1)
             showNoData.postValue(photosLiveData.value.isNullOrEmpty())
-        mCurrentPage = result.page
-        mTotalPage = result.pages
     }
 
     fun loadNextPage() {
@@ -38,7 +58,7 @@ class PhotosViewModel(private val photosRepo: PhotosRepo) : BaseViewModel() {
         loadNextPage()
     }
 
-    private fun clearPhotos() = handleRequest {
+    fun clearPhotos() = handleRequest {
         withContext(Dispatchers.IO) {
             (photosRepo.clearPhotos())
         }
