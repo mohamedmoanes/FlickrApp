@@ -12,13 +12,16 @@ import com.moanes.flickrapp.data.model.Photo
 interface PhotosDao {
     /** Get photos from local DB without pagination */
     @Query("Select * from Photos")
-    fun getPhotos() : LiveData<List<Photo>>
+    fun getPhotos(): LiveData<List<Photo>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(photoList: List<Photo>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(photo: Photo)
+
+    @Query("DELETE FROM Photos")
+    suspend fun clearPhotos()
 
     /** Get photos from local DB with pagination */
     @Query("SELECT * FROM Photos")

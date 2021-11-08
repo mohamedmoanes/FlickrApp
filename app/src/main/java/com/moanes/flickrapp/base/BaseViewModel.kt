@@ -1,4 +1,4 @@
-package com.moanes.flickrapp
+package com.moanes.flickrapp.base
 
 
 import androidx.lifecycle.LiveDataScope

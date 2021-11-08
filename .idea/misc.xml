@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/FlickrApp/app/src/main/res/layout/activity_main.xml" value="0.33125" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25677083333333334" />
+        <entry key="app/src/main/res/layout/fragment_photos_list.xml" value="0.25677083333333334" />
+        <entry key="app/src/main/res/layout/photo_item.xml" value="0.24814814814814815" />
       </map>
     </option>
   </component>

@@ -9,6 +9,8 @@ import com.moanes.flickrapp.data.network.Service
 interface PhotosRepo {
     suspend fun getRemoteData(page: Int):Photos
     fun getLocalPhotos(): LiveData<List<Photo>>
+
+   suspend fun clearPhotos()
 }
 
 class PhotosRepoImpl(private val remote: Service, private val dao: PhotosDao) : PhotosRepo {
@@ -20,5 +22,9 @@ class PhotosRepoImpl(private val remote: Service, private val dao: PhotosDao) : 
 
     override fun getLocalPhotos(): LiveData<List<Photo>> {
         return dao.getPhotos()
+    }
+
+    override suspend  fun clearPhotos() {
+        dao.clearPhotos()
     }
 }

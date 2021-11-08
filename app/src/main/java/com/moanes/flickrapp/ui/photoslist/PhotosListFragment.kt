@@ -1,60 +1,87 @@
 package com.moanes.flickrapp.ui.photoslist
 
+import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.moanes.flickrapp.R
+import com.moanes.flickrapp.base.BaseFragment
+import com.moanes.flickrapp.data.model.Photo
+import kotlinx.android.synthetic.main.fragment_photos_list.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [PhotosListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class PhotosListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class PhotosListFragment : BaseFragment() {
+    private val viewModel: PhotosListViewModel by viewModel()
+    private lateinit var adapter: PhotosAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override fun getLayout(): Int {
+        return R.layout.fragment_photos_list
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        handleError(viewModel)
+        handleProgress(viewModel, refreshLayout)
+
+        initPhotosList()
+
+        handlePagination()
+
+        handleRefreshLayout()
+
+        handlePhotosLiveData()
+
+        viewModel.loadNextPage()
+    }
+
+
+
+    private fun handlePhotosLiveData() {
+        viewModel.photosLiveData.observe(viewLifecycleOwner, {
+            adapter.submitList(it.toMutableList())
+        })
+    }
+
+    private fun handleRefreshLayout(){
+        refreshLayout.setOnRefreshListener {
+            viewModel.refresh()
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_photos_list, container, false)
+    private fun initPhotosList() {
+        adapter = PhotosAdapter(::openPhoto)
+        val layoutManager=if(resources.configuration.orientation ==ORIENTATION_PORTRAIT)
+            LinearLayoutManager(requireContext())
+        else
+            GridLayoutManager(requireActivity(),2)
+
+        photoRv.layoutManager = layoutManager
+
+        photoRv.adapter = adapter
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment PhotosListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            PhotosListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun handlePagination() {
+        photoRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val visibleItemCount = recyclerView.layoutManager!!.childCount
+                val totalItemCount = recyclerView.layoutManager!!.itemCount
+                val firstVisibleItemPosition =
+                    (recyclerView.layoutManager as LinearLayoutManager?)!!.findFirstVisibleItemPosition()
+
+                if (visibleItemCount + firstVisibleItemPosition >= totalItemCount
+                    && firstVisibleItemPosition >= 0
+                ) {
+                    viewModel.loadNextPage()
                 }
             }
+        })
     }
+
+    private fun openPhoto(photo: Photo) {}
 }
