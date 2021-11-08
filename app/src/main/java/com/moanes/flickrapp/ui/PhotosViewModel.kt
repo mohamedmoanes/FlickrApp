@@ -25,11 +25,11 @@ class PhotosViewModel(private val photosRepo: PhotosRepo) : BaseViewModel() {
             val result = withContext(Dispatchers.IO) {
                 photosRepo.getRemoteData(mCurrentPage)
             }
+            checkData()
 
             mCurrentPage = result.page
             mTotalPage = result.pages
 
-            checkData()
 
             showLoading.postValue(false)
 
