@@ -1,11 +1,14 @@
 package com.moanes.flickrapp.data.model
 
-
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "Photos")
 data class Photo(
     @SerializedName("farm")
     var farm: Int,
+    @PrimaryKey
     @SerializedName("id")
     var id: String,
     @SerializedName("isfamily")
