@@ -27,16 +27,16 @@ class PhotosListFragment : BaseFragment() {
 
         handleError(viewModel)
         handleProgress(viewModel, refreshLayout)
+        handleNoData(viewModel, noData)
 
         initPhotosList()
+
+        handlePhotosLiveData()
 
         handlePagination()
 
         handleRefreshLayout()
 
-        handlePhotosLiveData()
-
-        viewModel.loadNextPage()
     }
 
 

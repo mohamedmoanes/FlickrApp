@@ -7,24 +7,24 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "Photos")
 data class Photo(
     @SerializedName("farm")
-    var farm: Int,
+    var farm: Int=0,
     @PrimaryKey
     @SerializedName("id")
     var id: String,
     @SerializedName("isfamily")
-    var isfamily: Int,
+    var isfamily: Int=0,
     @SerializedName("isfriend")
-    var isfriend: Int,
+    var isfriend: Int=0,
     @SerializedName("ispublic")
-    var ispublic: Int,
+    var ispublic: Int=0,
     @SerializedName("owner")
-    var owner: String,
+    var owner: String="",
     @SerializedName("secret")
-    var secret: String,
+    var secret: String="",
     @SerializedName("server")
-    var server: String,
+    var server: String="",
     @SerializedName("title")
-    var title: String
+    var title: String=""
 ) {
     fun getUrl(): String {
         return "https://live.staticflickr.com/${server}/${id}_${secret}.jpg"

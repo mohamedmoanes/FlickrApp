@@ -19,6 +19,8 @@ class PhotosViewModel(private val photosRepo: PhotosRepo) : BaseViewModel() {
         val result = withContext(Dispatchers.IO) {
             photosRepo.getRemoteData(mCurrentPage)
         }
+        if (mCurrentPage == 1)
+            showNoData.postValue(photosLiveData.value.isNullOrEmpty())
         mCurrentPage = result.page
         mTotalPage = result.pages
     }
@@ -44,7 +46,7 @@ class PhotosViewModel(private val photosRepo: PhotosRepo) : BaseViewModel() {
 
     private fun autoRefresh() {
         fixedRateTimer("timer", false, 0L, 60 * 1000) {
-            mCurrentPage = 0
+            mCurrentPage = 1
             getPhotos()
         }
     }

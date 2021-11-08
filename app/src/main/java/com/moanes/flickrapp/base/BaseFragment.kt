@@ -59,4 +59,13 @@ abstract class BaseFragment : Fragment() {
             view?.let { it1 -> Snackbar.make(it1, it, Snackbar.LENGTH_SHORT).show() }
         })
     }
+
+    fun handleNoData(viewModel: BaseViewModel, noData: View) {
+        viewModel.showNoData.observe(viewLifecycleOwner, {
+            if (it)
+                noData.visibility = View.VISIBLE
+            else
+                noData.visibility = View.GONE
+        })
+    }
 }
