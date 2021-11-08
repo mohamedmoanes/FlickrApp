@@ -8,13 +8,14 @@ import androidx.viewpager2.widget.ViewPager2
 import com.moanes.flickrapp.R
 import com.moanes.flickrapp.base.BaseFragment
 import com.moanes.flickrapp.data.model.Photo
+import com.moanes.flickrapp.ui.PhotosViewModel
 import com.moanes.flickrapp.utilities.extensions.setImageURL
 import kotlinx.android.synthetic.main.fragment_full_screen_image.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
 class FullScreenImageFragment : BaseFragment() {
-    private val viewModel: FullScreenImageViewModel by viewModel()
+    private val viewModel: PhotosViewModel by sharedViewModel()
     private val args: FullScreenImageFragmentArgs by navArgs()
 
     override fun getLayout(): Int {
@@ -23,18 +24,16 @@ class FullScreenImageFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        handlePhotosLiveData()
+handlePhotosLiveData()
         close()
     }
-
     private fun handlePhotosLiveData() {
         viewModel.photosLiveData.observe(viewLifecycleOwner, {
             initImagesSlider(it)
         })
     }
-
     private fun initImagesSlider(list: List<Photo>) {
-        counter.text = "${args.position}" + " / " + list.size.toString()
+        counter.text = "${args.position} / ${list.size}"
         viewPager.adapter = ImagesAdapter(list, childFragmentManager, lifecycle)
         viewPager.setCurrentItem(args.position, true)
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -46,7 +45,7 @@ class FullScreenImageFragment : BaseFragment() {
             ) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
                 background_image_view.setImageURL(list[position].getUrl())
-                counter.text = (position + 1).toString() + " / " + list.size.toString()
+                counter.text = "${position + 1} / ${list.size}"
             }
 
             override fun onPageSelected(position: Int) {

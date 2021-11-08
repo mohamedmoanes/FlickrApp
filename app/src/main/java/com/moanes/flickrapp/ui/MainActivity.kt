@@ -1,8 +1,7 @@
 package com.moanes.flickrapp.ui
 
-import android.util.Log
-import com.moanes.flickrapp.base.BaseActivity
 import com.moanes.flickrapp.R
+import com.moanes.flickrapp.base.BaseActivity
 
 class MainActivity : BaseActivity() {
     override fun getLayout(): Int {

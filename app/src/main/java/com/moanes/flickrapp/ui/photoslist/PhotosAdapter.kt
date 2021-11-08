@@ -3,6 +3,8 @@ package com.moanes.flickrapp.ui.photoslist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -10,8 +12,6 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.moanes.flickrapp.R
 import com.moanes.flickrapp.data.model.Photo
 import com.moanes.flickrapp.utilities.extensions.setImageURL
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 
 
 class PhotosAdapter(private val click: (position:Int) -> Unit) :

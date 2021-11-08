@@ -1,4 +1,4 @@
-package com.moanes.flickrapp.ui.photoslist
+package com.moanes.flickrapp.ui
 
 import com.moanes.flickrapp.base.BaseViewModel
 import com.moanes.flickrapp.data.repository.PhotosRepo
@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.concurrent.fixedRateTimer
 
-class PhotosListViewModel(private val photosRepo: PhotosRepo) : BaseViewModel() {
+class PhotosViewModel(private val photosRepo: PhotosRepo) : BaseViewModel() {
     val photosLiveData = photosRepo.getLocalPhotos()
     private var mCurrentPage = 0
     private var mTotalPage = 1

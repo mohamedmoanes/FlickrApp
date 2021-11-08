@@ -1,10 +1,10 @@
 package com.moanes.flickrapp.ui.fullscreenimageviewer
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.ablanco.zoomy.Zoomy
 import com.moanes.flickrapp.R
 import com.moanes.flickrapp.utilities.extensions.setImageURL

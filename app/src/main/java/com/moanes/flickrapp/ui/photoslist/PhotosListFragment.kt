@@ -3,20 +3,19 @@ package com.moanes.flickrapp.ui.photoslist
 import android.content.res.Configuration.ORIENTATION_PORTRAIT
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AnimationUtils
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.moanes.flickrapp.R
 import com.moanes.flickrapp.base.BaseFragment
-import com.moanes.flickrapp.data.model.Photo
+import com.moanes.flickrapp.ui.PhotosViewModel
 import kotlinx.android.synthetic.main.fragment_photos_list.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 
 class PhotosListFragment : BaseFragment() {
-    private val viewModel: PhotosListViewModel by viewModel()
+    private val viewModel: PhotosViewModel by sharedViewModel()
     private lateinit var adapter: PhotosAdapter
 
     override fun getLayout(): Int {
