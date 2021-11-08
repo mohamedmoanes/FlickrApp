@@ -1,5 +1,6 @@
 package com.moanes.flickrapp.ui
 
+import androidx.annotation.VisibleForTesting
 import com.moanes.flickrapp.base.BaseViewModel
 import com.moanes.flickrapp.data.repository.PhotosRepo
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +17,8 @@ class PhotosViewModel(private val photosRepo: PhotosRepo) : BaseViewModel() {
         autoRefresh()
     }
 
-    fun getPhotos() = launch {
+    @VisibleForTesting
+     fun getPhotos() = launch {
         try {
             showLoading.postValue(true)
 
@@ -40,7 +42,7 @@ class PhotosViewModel(private val photosRepo: PhotosRepo) : BaseViewModel() {
         }
     }
 
-    fun checkData() {
+    private fun checkData() {
         if (mCurrentPage == 1)
             showNoData.postValue(photosLiveData.value.isNullOrEmpty())
     }
@@ -58,7 +60,7 @@ class PhotosViewModel(private val photosRepo: PhotosRepo) : BaseViewModel() {
         loadNextPage()
     }
 
-    fun clearPhotos() = handleRequest {
+    private fun clearPhotos() = handleRequest {
         withContext(Dispatchers.IO) {
             (photosRepo.clearPhotos())
         }
